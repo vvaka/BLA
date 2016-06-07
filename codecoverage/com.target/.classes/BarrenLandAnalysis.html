@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+    <title>Coverage Report :: BarrenLandAnalysis</title>
+    <style type="text/css">
+        @import "../../.css/coverage.css";
+    </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+    <div class="breadCrumbs">
+        [ <a href="../../index.html">all classes</a> ]
+        [ <a href="../index.html">com.target</a> ]
+    </div>
+
+    <h1>Coverage Summary for Class: BarrenLandAnalysis (com.target)</h1>
+
+    <table class="coverageStats">
+
+        <tr>
+            <th class="name">Class</th>
+            <th class="coverageStat
+">
+                Method, %
+            </th>
+            <th class="coverageStat
+">
+                Line, %
+            </th>
+        </tr>
+        <tr>
+            <td class="name">BarrenLandAnalysis</td>
+            <td class="coverageStat">
+  <span class="percent">
+    77.8%
+  </span>
+  <span class="absValue">
+    (7/ 9)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (70/ 77)
+  </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="name">BarrenLandAnalysis$Tuple</td>
+            <td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="name"><strong>total</strong></td>
+            <td class="coverageStat">
+  <span class="percent">
+    84.6%
+  </span>
+  <span class="absValue">
+    (11/ 13)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    91.9%
+  </span>
+  <span class="absValue">
+    (79/ 86)
+  </span>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    <br/>
+
+
+    <div class="sourceCode"><i>1</i>&nbsp;package com.target;
+        <i>2</i>&nbsp;
+        <i>3</i>&nbsp;import java.util.*;
+        <i>4</i>&nbsp;import java.util.stream.Collectors;
+        <i>5</i>&nbsp;
+        <i>6</i>&nbsp;/**
+        <i>7</i>&nbsp; * Created by vvaka on 6/5/16.
+        <i>8</i>&nbsp; * &lt;p&gt;
+        <i>9</i>&nbsp; * This Class provides implementation to analyze land area for Fertile land provided , barren land
+        areas as set of rectangle formats
+        <i>10</i>&nbsp; * refer to READEME.md for complete problem definition
+        <i>11</i>&nbsp; */
+        <b class="fc"><i>12</i>&nbsp;public class BarrenLandAnalysis {</b>
+        <i>13</i>&nbsp;
+        <i>14</i>&nbsp; // 2 dimensional array to represent the whole land area
+        <i>15</i>&nbsp; private int[][] matrix;
+        <i>16</i>&nbsp;
+        <i>17</i>&nbsp; private int ROWS;
+        <i>18</i>&nbsp; private int COLS;
+        <i>19</i>&nbsp; private List&lt;int[]&gt; barrenLandRectangles;
+        <i>20</i>&nbsp;
+        <i>21</i>&nbsp;
+        <i>22</i>&nbsp; /**
+        <i>23</i>&nbsp; * Class to hold the co-ordinates
+        <i>24</i>&nbsp; */
+        <b class="fc"><i>25</i>&nbsp; private class Tuple {</b>
+        <i>26</i>&nbsp;
+        <i>27</i>&nbsp; private int x;
+        <i>28</i>&nbsp; private int y;
+        <i>29</i>&nbsp;
+        <b class="fc"><i>30</i>&nbsp; Tuple(int x, int y) {</b>
+        <i>31</i>&nbsp; //(x,y) are start&#39;s at 0 , making sure x,y will not overflow
+        <b class="fc"><i>32</i>&nbsp; assert (x &gt;= 0 &amp;&amp; x &lt; ROWS) &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;
+            COLS : String.format(&quot;(%s,%s) value should not be greater than (%s,%s) &quot;, x, y, ROWS - 1, COLS -
+            1);</b>
+        <b class="fc"><i>33</i>&nbsp; this.x = x;</b>
+        <b class="fc"><i>34</i>&nbsp; this.y = y;</b>
+        <b class="fc"><i>35</i>&nbsp; }</b>
+        <i>36</i>&nbsp;
+        <i>37</i>&nbsp; boolean canFormValidRectangle(Tuple t2) {
+        <b class="fc"><i>38</i>&nbsp; assert (t2.x - this.x &gt;= 1 &amp;&amp; t2.y - this.y &gt;= 1) : String.format(&quot;Can
+            not form a rectangle with %s, %s&quot;, this, t2);</b>
+        <b class="fc"><i>39</i>&nbsp; return true;</b>
+        <i>40</i>&nbsp; }
+        <i>41</i>&nbsp;
+        <i>42</i>&nbsp; @Override
+        <i>43</i>&nbsp; public String toString() {
+        <b class="fc"><i>44</i>&nbsp; return &quot;(&quot; + &quot;x=&quot; + x + &quot;, y=&quot; + y +
+            &#39;)&#39;;</b>
+        <i>45</i>&nbsp; }
+        <i>46</i>&nbsp; }
+        <i>47</i>&nbsp;
+        <i>48</i>&nbsp;
+        <i>49</i>&nbsp; /**
+        <i>50</i>&nbsp; * Private Constructor to used in the public constructor
+        BrandAnalysis(rows,cols,barrenLandRectanglesInputString)
+        <i>51</i>&nbsp; * &lt;p&gt;
+        <i>52</i>&nbsp; * This method prepares the matrix to represent the total land area and fill it all with 1&#39;s
+        to signify normal land
+        <i>53</i>&nbsp; *
+        <i>54</i>&nbsp; * @param rows number of total rows in the land area
+        <i>55</i>&nbsp; * @param cols number of total columns in the land area
+        <i>56</i>&nbsp; */
+        <i>57</i>&nbsp;
+        <b class="fc"><i>58</i>&nbsp; private BarrenLandAnalysis(int rows, int cols) {</b>
+        <b class="fc"><i>59</i>&nbsp; this.ROWS = rows;</b>
+        <b class="fc"><i>60</i>&nbsp; this.COLS = cols;</b>
+        <b class="fc"><i>61</i>&nbsp; this.matrix = new int[rows][cols];</b>
+        <b class="fc"><i>62</i>&nbsp; this.barrenLandRectangles = new ArrayList&lt;&gt;();</b>
+        <i>63</i>&nbsp; //fill in all the land with 1&#39;s
+        <b class="fc"><i>64</i>&nbsp; for (int[] row : matrix) {</b>
+        <b class="fc"><i>65</i>&nbsp; Arrays.fill(row, 1);</b>
+        <i>66</i>&nbsp; }
+        <b class="fc"><i>67</i>&nbsp; }</b>
+        <i>68</i>&nbsp;
+        <i>69</i>&nbsp; /**
+        <i>70</i>&nbsp; * Constructor to create BrandAnalysis
+        <i>71</i>&nbsp; *
+        <i>72</i>&nbsp; * @param rows number of total rows in the land area
+        <i>73</i>&nbsp; * @param cols number of total columns in the land area
+        <i>74</i>&nbsp; * @param barrenLandRectanglesInputString set of rectangles to represent barren land areas
+        <i>75</i>&nbsp; * @throws AssertionError when the inputString can&#39;t form a valid rectangle or co-ordinates
+        are out of bounds
+        <i>76</i>&nbsp; */
+        <i>77</i>&nbsp; BarrenLandAnalysis(int rows, int cols, String barrenLandRectanglesInputString) {
+        <i>78</i>&nbsp;
+        <b class="fc"><i>79</i>&nbsp; this(rows, cols);</b>
+        <b class="fc"><i>80</i>&nbsp; this.processInputString(barrenLandRectanglesInputString);</b>
+        <b class="fc"><i>81</i>&nbsp; if (barrenLandRectangles != null)</b>
+        <i>82</i>&nbsp; //mark barren lands with 1&#39;s
+        <b class="fc"><i>83</i>&nbsp; for (int[] barrenLand : barrenLandRectangles) {</b>
+        <b class="fc"><i>84</i>&nbsp; Tuple t1 = new Tuple(barrenLand[0], barrenLand[1]);</b>
+        <b class="fc"><i>85</i>&nbsp; Tuple t2 = new Tuple(barrenLand[2], barrenLand[3]);</b>
+        <i>86</i>&nbsp;
+        <b class="fc"><i>87</i>&nbsp; t1.canFormValidRectangle(t2);</b>
+        <i>88</i>&nbsp;
+        <b class="fc"><i>89</i>&nbsp; markBarrenLand(t1, t2);</b>
+        <b class="fc"><i>90</i>&nbsp; }</b>
+        <b class="fc"><i>91</i>&nbsp; }</b>
+        <i>92</i>&nbsp;
+        <i>93</i>&nbsp; /**
+        <i>94</i>&nbsp; * This method marks the BarrenLand area with 0&#39;s in the matrix with co ordinates specified
+        in t1,t2
+        <i>95</i>&nbsp; *
+        <i>96</i>&nbsp; * @param t1 lower left corner of the rectangle
+        <i>97</i>&nbsp; * @param t2 top right corner of the rectangle
+        <i>98</i>&nbsp; */
+        <i>99</i>&nbsp; private void markBarrenLand(Tuple t1, Tuple t2) {
+        <i>100</i>&nbsp; //indices starts at 0
+        <i>101</i>&nbsp; //(x1,y1) , (x2,y2)
+        <b class="fc"><i>102</i>&nbsp; for (int i = t1.x; i &lt;= t2.x; i++) {</b>
+        <b class="fc"><i>103</i>&nbsp; for (int j = t1.y; j &lt;= t2.y; j++)</b>
+        <b class="fc"><i>104</i>&nbsp; this.matrix[i][j] = 0;</b>
+        <i>105</i>&nbsp; }
+        <b class="fc"><i>106</i>&nbsp; }</b>
+        <i>107</i>&nbsp;
+        <i>108</i>&nbsp; /**
+        <i>109</i>&nbsp; * This method navigates through each co-ordinate of the land given represented in this.matrix
+        <i>110</i>&nbsp; * and count the fertile land area excluding the parts of barren land rectangles marked by 0
+        <i>111</i>&nbsp; *
+        <i>112</i>&nbsp; * @implNote We are using BFS to exploration of all the nodes with 1&#39;s and mark them as
+        visited by adding fertile land marker i.e &gt;1 to further exploration.
+        <i>113</i>&nbsp; */
+        <i>114</i>&nbsp;
+        <i>115</i>&nbsp; public List&lt;Integer&gt; findFertileLand() {
+        <i>116</i>&nbsp;
+        <b class="fc"><i>117</i>&nbsp; Map&lt;Integer, Integer&gt; landAreas = new HashMap&lt;&gt;();</b>
+        <b class="fc"><i>118</i>&nbsp; Deque&lt;Tuple&gt; queue = new ArrayDeque&lt;&gt;();</b>
+        <i>119</i>&nbsp;
+        <b class="fc"><i>120</i>&nbsp; int fertileLandRegion = 1;</b>
+        <b class="fc"><i>121</i>&nbsp; int i = 0, j = 0;</b>
+        <b class="fc"><i>122</i>&nbsp; while (i &lt; ROWS &amp;&amp; j &lt; COLS) {</b>
+        <i>123</i>&nbsp;
+        <b class="fc"><i>124</i>&nbsp; if (!queue.isEmpty()) {</b>
+        <b class="fc"><i>125</i>&nbsp; Tuple t = queue.poll();</b>
+        <b class="fc"><i>126</i>&nbsp; if (this.matrix[t.x][t.y] == 1) {</b>
+        <i>127</i>&nbsp; // mark the node visited
+        <b class="fc"><i>128</i>&nbsp; this.matrix[t.x][t.y] = fertileLandRegion;</b>
+        <i>129</i>&nbsp; //add the current Node to the area count
+        <b class="fc"><i>130</i>&nbsp; landAreas.put(fertileLandRegion, landAreas.get(fertileLandRegion) + 1);</b>
+        <i>131</i>&nbsp;
+        <i>132</i>&nbsp; //add the 4 nodes surrounding to the queue for exploration
+        <b class="fc"><i>133</i>&nbsp; if (t.x &lt; ROWS - 1)</b>
+        <b class="fc"><i>134</i>&nbsp; queue.offer(new Tuple(t.x + 1, t.y));</b>
+        <b class="fc"><i>135</i>&nbsp; if (t.x &gt; 0)</b>
+        <b class="fc"><i>136</i>&nbsp; queue.push(new Tuple(t.x - 1, t.y));</b>
+        <b class="fc"><i>137</i>&nbsp; if (t.y &lt; COLS - 1)</b>
+        <b class="fc"><i>138</i>&nbsp; queue.offer(new Tuple(t.x, t.y + 1));</b>
+        <b class="fc"><i>139</i>&nbsp; if (t.y &gt; 0)</b>
+        <b class="fc"><i>140</i>&nbsp; queue.offer(new Tuple(t.x, t.y - 1));</b>
+        <i>141</i>&nbsp; }
+        <b class="fc"><i>142</i>&nbsp; } else {</b>
+        <i>143</i>&nbsp; //Queue is empty , initialize a new Land region
+        <b class="fc"><i>144</i>&nbsp; if (this.matrix[i][j] == 1) {</b>
+        <b class="fc"><i>145</i>&nbsp; queue.offer(new Tuple(i, j));</b>
+        <b class="fc"><i>146</i>&nbsp; fertileLandRegion++;</b>
+        <b class="fc"><i>147</i>&nbsp; landAreas.put(fertileLandRegion, 0);</b>
+        <i>148</i>&nbsp; }
+        <b class="fc"><i>149</i>&nbsp; if (j == COLS - 1) {</b>
+        <b class="fc"><i>150</i>&nbsp; i++;</b>
+        <b class="fc"><i>151</i>&nbsp; j = 0;</b>
+        <i>152</i>&nbsp; } else {
+        <b class="fc"><i>153</i>&nbsp; j++;</b>
+        <i>154</i>&nbsp; }
+        <i>155</i>&nbsp; }
+        <i>156</i>&nbsp; }
+        <i>157</i>&nbsp; //returning the area&#39;s only in sorted order
+        <b class="fc"><i>158</i>&nbsp; return landAreas.values().stream().sorted().collect(Collectors.toList());</b>
+        <i>159</i>&nbsp; }
+        <i>160</i>&nbsp;
+        <i>161</i>&nbsp;
+        <i>162</i>&nbsp; void printGrid() {
+        <b class="fc"><i>163</i>&nbsp; for (int[] aMatrix : matrix) {</b>
+        <b class="fc"><i>164</i>&nbsp; for (int j = 0; j &lt; matrix[0].length; j++)</b>
+        <b class="fc"><i>165</i>&nbsp; System.out.printf(&quot;%2d &quot;, aMatrix[j]);</b>
+        <b class="fc"><i>166</i>&nbsp; System.out.print(&quot;\n&quot;);</b>
+        <i>167</i>&nbsp; }
+        <b class="fc"><i>168</i>&nbsp; }</b>
+        <i>169</i>&nbsp;
+        <i>170</i>&nbsp;
+        <i>171</i>&nbsp; /**
+        <i>172</i>&nbsp; * This method processes the inputString and parses coverts them to (x,y) co-ordinates to form
+        Tuple objects
+        <i>173</i>&nbsp; * Set of barren land rectangles are defined in a string, which consists of four integers
+        separated by single spaces,
+        <i>174</i>&nbsp; * with no additional spaces in the string. The first two integers are the coordinates of the
+        bottom left corner in the given rectangle,
+        <i>175</i>&nbsp; * and the last two integers are the coordinates of the top right corner.
+        <i>176</i>&nbsp; *
+        <i>177</i>&nbsp; * @param barrenLandRectanglesInputString holds the input string
+        <i>178</i>&nbsp; */
+        <i>179</i>&nbsp;
+        <i>180</i>&nbsp; private void processInputString(String barrenLandRectanglesInputString) {
+        <b class="fc"><i>181</i>&nbsp; if (barrenLandRectanglesInputString == null ||
+            barrenLandRectanglesInputString.length() == 0)</b>
+        <b class="fc"><i>182</i>&nbsp; return;</b>
+        <i>183</i>&nbsp; // remove { } from input
+        <b class="fc"><i>184</i>&nbsp; barrenLandRectanglesInputString = barrenLandRectanglesInputString.replaceAll(&quot;\\{|\\}&quot;,
+            &quot;&quot;);</b>
+        <i>185</i>&nbsp; //split string at , and extra white space around , are ignored
+        <b class="fc"><i>186</i>&nbsp; String[] rects =
+            barrenLandRectanglesInputString.split(&quot;\\s*,\\s*&quot;);</b>
+        <i>187</i>&nbsp;
+        <b class="fc"><i>188</i>&nbsp; for (String r : rects) {</b>
+        <i>189</i>&nbsp; //replace quotes
+        <b class="fc"><i>190</i>&nbsp; r = r.replaceAll(&quot;\&quot;|“|”&quot;, &quot;&quot;);</b>
+        <i>191</i>&nbsp; //split each rectangle at space
+        <b class="fc"><i>192</i>&nbsp; String coordinates[] = r.split(&quot; &quot;);</b>
+        <b class="fc"><i>193</i>&nbsp; if (coordinates.length == 4) {</b>
+        <b class="fc"><i>194</i>&nbsp; this.barrenLandRectangles.add(new int[]{</b>
+        <b class="fc"><i>195</i>&nbsp; Integer.valueOf(coordinates[0]),</b>
+        <b class="fc"><i>196</i>&nbsp; Integer.valueOf(coordinates[1]),</b>
+        <b class="fc"><i>197</i>&nbsp; Integer.valueOf(coordinates[2]),</b>
+        <b class="fc"><i>198</i>&nbsp; Integer.valueOf(coordinates[3])</b>
+        <i>199</i>&nbsp; });
+        <i>200</i>&nbsp; }
+        <i>201</i>&nbsp; }
+        <b class="fc"><i>202</i>&nbsp; }</b>
+        <i>203</i>&nbsp;
+        <i>204</i>&nbsp;
+        <i>205</i>&nbsp; public static void main(String[] args) {
+        <b class="nc"><i>206</i>&nbsp; System.out.println(getInstanceFromStdIn().findFertileLand());</b>
+        <b class="nc"><i>207</i>&nbsp; }</b>
+        <i>208</i>&nbsp;
+        <i>209</i>&nbsp; public static BarrenLandAnalysis getInstanceFromStdIn() {
+        <b class="nc"><i>210</i>&nbsp; System.out.println(&quot;Enter coordinates for barren land rectangles
+            &quot;);</b>
+        <b class="nc"><i>211</i>&nbsp; try (Scanner scanner = new Scanner(System.in)) {</b>
+        <b class="nc"><i>212</i>&nbsp; String input = scanner.nextLine();</b>
+        <b class="nc"><i>213</i>&nbsp; return new BarrenLandAnalysis(400, 600, input);</b>
+        <i>214</i>&nbsp;
+        <b class="nc"><i>215</i>&nbsp; }</b>
+        <i>216</i>&nbsp; }
+        <i>217</i>&nbsp;}
+    </div>
+</div>
+
+<div class="footer">
+
+    <div style="float:right;">generated on 2016-06-07 10:48</div>
+</div>
+</body>
+</html>
