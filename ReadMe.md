@@ -18,5 +18,5 @@ Output all the fertile land area in square meters, sorted from smallest area to 
 
 
 
-[Junit Test Results](./TestResults-BarrenLandAnalysisTest_(1).html)
+[Junit Test Results](http://htmlpreview.github.io/?https://raw.githubusercontent.com/vvaka/BarrenLandAnalysis/master/TestResults-BarrenLandAnalysisTest_(1).html)
 
