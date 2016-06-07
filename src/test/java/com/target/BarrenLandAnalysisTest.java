@@ -3,6 +3,7 @@ package com.target;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -96,7 +97,7 @@ public class BarrenLandAnalysisTest {
     }
 
     @Test
-    public void testWith2AreasWithSmallArea() {
+    public void testWith2FertileLandsWithSmallLandArea() {
 
         String input = "{“0 2 4 3” , “0 6 7 8” }";
         BarrenLandAnalysis subject = new BarrenLandAnalysis(8, 10, input);
@@ -141,6 +142,26 @@ public class BarrenLandAnalysisTest {
     }
 
 
+    @Test
+    public void testGetInstanceFromStdIn() {
+
+        String input = "”0 292 399 307”";
+        try {
+            System.setIn(new ByteArrayInputStream(input.getBytes()));
+            BarrenLandAnalysis subject = BarrenLandAnalysis.getInstanceFromStdIn(400, 600);
+            System.out.println("inputString =" + input);
+            List<Integer> landAreas = subject.findFertileLand();
+            System.out.print("Fertile land areas =");
+            int[] expectedResult = new int[]{116800, 116800};
+            System.out.println(landAreas);
+            assertThat(landAreas.size(), is(2));
+            assertThat(landAreas.toArray(), is(expectedResult));
+
+        } finally {
+            System.setIn(System.in);
+        }
+
+    }
 }
 
 

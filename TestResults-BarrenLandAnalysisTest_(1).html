@@ -289,7 +289,7 @@
                 }];
                 e = function () {
                     return '\\w+'
-                };
+            };
                 c = 1
             }
             while (c--)if (k[c])p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
@@ -312,7 +312,7 @@
                         date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
                     } else {
                         date = options.expires;
-                    }
+            }
                     expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
                 }
                 var path = options.path ? '; path=' + options.path : '';
@@ -329,8 +329,8 @@
                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                             break;
-                        }
-                    }
+                }
+            }
                 }
                 return cookieValue;
             }
@@ -593,8 +593,8 @@
 <body>
 <div id="container">
     <div id="header">
-        <div class="time">1.21 s</div>
-        <h1>BarrenLandAnalysisTest (1): <strong><span class="total">8 total, </span><span class="passed">8 passed</span></strong>
+        <div class="time">1.02 s</div>
+        <h1>BarrenLandAnalysisTest (1): <strong><span class="total">9 total, </span><span class="passed">9 passed</span></strong>
         </h1>
         <div id="treecontrol">
             <ul>
@@ -612,13 +612,23 @@
         <ul id="tree">
             <li class="level test">
 <span><em class="time">
-<div class="time">53 ms</div>
+<div class="time">35 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testInvalidRectangleThrowsException</span>
             </li>
             <li class="level test">
 <span><em class="time">
-<div class="time">151 ms</div>
+<div class="time">89 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testWhenNoFertileLand</span>
+            </li>
+            <li class="level test">
+<span><em class="time">
+<div class="time">503 ms</div>
+</em><em class="status">passed</em>BarrenLandAnalysisTest.testGetInstanceFromStdIn</span>
+                <ul>
+                    <li class="text">
+                        <span class="stdout">Enter coordinates for barren land rectangles <br/>inputString =”0 292 399 307”<br/>Fertile land areas =[116800, 116800]<br/></span>
+                    </li>
+                </ul>
             </li>
             <li class="level test">
 <span><em class="time">
@@ -627,7 +637,7 @@
             </li>
             <li class="level test">
 <span><em class="time">
-<div class="time">6 ms</div>
+<div class="time">7 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testSmallAreaWithOneBarrenLand</span>
                 <ul>
                     <li class="text">
@@ -637,22 +647,12 @@
             </li>
             <li class="level test">
 <span><em class="time">
-<div class="time">23 ms</div>
-</em><em class="status">passed</em>BarrenLandAnalysisTest.testWith2AreasWithSmallArea</span>
-                <ul>
-                    <li class="text">
-                        <span class="stdout">Land Given<br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/>After finding Fertile Land Area<br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/>fertile landAreas = [8, 38]<br/></span>
-                    </li>
-                </ul>
-            </li>
-            <li class="level test">
-<span><em class="time">
-<div class="time">843 ms</div>
+<div class="time">262 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testWhenNoBarrenLand</span>
             </li>
             <li class="level test">
 <span><em class="time">
-<div class="time">69 ms</div>
+<div class="time">62 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testSample1</span>
                 <ul>
                     <li class="text">
@@ -662,7 +662,7 @@
             </li>
             <li class="level test">
 <span><em class="time">
-<div class="time">61 ms</div>
+<div class="time">59 ms</div>
 </em><em class="status">passed</em>BarrenLandAnalysisTest.testSample2</span>
                 <ul>
                     <li class="text">
@@ -670,11 +670,21 @@
                     </li>
                 </ul>
             </li>
+            <li class="level test">
+<span><em class="time">
+<div class="time">6 ms</div>
+</em><em class="status">passed</em>BarrenLandAnalysisTest.testWith2FertileLandsWithSmallLandArea</span>
+                <ul>
+                    <li class="text">
+                        <span class="stdout">Land Given<br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  0  0  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/> 1  1  1  1  1  1  0  0  0  1 <br/>After finding Fertile Land Area<br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  0  0  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/> 2  2  2  2  2  2  0  0  0  3 <br/>fertile landAreas = [8, 38]<br/></span>
+                    </li>
+                </ul>
+            </li>
         </ul>
-    </div>
+</div>
 </div>
 <div id="footer">
-    <p>Generated by IntelliJ IDEA on 6/7/16 10:19 AM</p>
+    <p>Generated by IntelliJ IDEA on 6/7/16 11:27 AM</p>
 </div>
 </body>
 </html>

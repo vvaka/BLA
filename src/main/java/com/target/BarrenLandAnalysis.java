@@ -203,14 +203,21 @@ public class BarrenLandAnalysis {
 
 
     public static void main(String[] args) {
-        System.out.println(getInstanceFromStdIn().findFertileLand());
+        System.out.println(getInstanceFromStdIn(400, 600).findFertileLand());
     }
 
-    public static BarrenLandAnalysis getInstanceFromStdIn() {
+    /**
+     * An utility method to create instance of the BarrenLandAnalysis by accepting input from STDIN for barrenLand rectangles
+     *
+     * @param rows number of rows in the land
+     * @param cols number of columns in the land
+     * @return
+     */
+    public static BarrenLandAnalysis getInstanceFromStdIn(int rows, int cols) {
         System.out.println("Enter coordinates for barren land rectangles ");
         try (Scanner scanner = new Scanner(System.in)) {
             String input = scanner.nextLine();
-            return new BarrenLandAnalysis(400, 600, input);
+            return new BarrenLandAnalysis(rows, cols, input);
 
         }
     }
