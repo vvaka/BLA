@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.gradle/
+README.txt
+build/
+.idea
+*.ipr
+*.iws
